@@ -41,18 +41,32 @@ function rb_get_bib_info() {
 <tr><td>First Name (optional)</td><td><input size=20 type="text" name="bib_name" value="<?php echo sanitize_text_field($_POST['bib_name'])?>" /></td></tr>
 <tr><td>Distance</td><td><select name="bib_color">
 <option>
-<option value='/wp-content/uploads/oly-tri.png' selected>Olympic Tri
-<option value='/wp-content/uploads/2016/08/oly-du.png'>Olympic Duathlon
-<option value='/wp-content/uploads/2016/08/oly-aqua.png'>Olympic Aquabike
-<option value='/wp-content/uploads/2016/08/oly-relay.png'>Olympic Tri Relay
-<option value='/wp-content/uploads/2016/08/half-tri.png'>Half Iron Tri
-<option value='/wp-content/uploads/2016/08/half-du.png'>Half Iron Duathlon
-<option value='/wp-content/uploads/2016/08/half-aqua.png'>Half Iron Aquabike
-<option value='/wp-content/uploads/2016/08/half-relay.png'>Half Iron Tri Relay
-<option value='/wp-content/uploads/2016/08/full-tri.png'>Full Iron Tri
-<option value='/wp-content/uploads/2016/08/full-du.png'>Full Iron Duathlon
-<option value='/wp-content/uploads/2016/08/full-aqua.png'>Full Iron Aquabike
-<option value='/wp-content/uploads/2016/08/full-relay.png'>Full Iron Tri Relay
+ 
+
+
+<?php 
+       $path = "/wp-content/plugins/race-bib-generator/bibs/";
+        
+        foreach( glob( plugin_dir_path( __FILE__ ) . "bibs/*.png" ) as $filename ){
+       
+        
+        $filename = basename($filename);
+        
+        if ($filename == "Select.png"){
+
+        echo '<option value="'.$path.'Select.png" selected>Select</option>';
+         }
+
+        else {
+        $lable = substr($filename, 0, -4);  
+        $filename = $path.$filename;
+          
+               echo "<option value='" . $filename . "'>".$lable."</option>";
+    }
+   }
+?>
+
+
 </select></td></tr>
 <tr><td colspan=3><input type="submit" name='rb-submitted' value="Generate" /></td></tr>
 </table>
@@ -89,11 +103,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $n3 = test_input($_POST["bib_color"]);
 }
 
+if ($n1 == ""){ 
+echo '<script language="javascript">';
+echo 'alert("You must enter a Bib Number!")';
+echo '</script>';
+
+}
+
+
+
 if ($n1 && $n3){
 
 $n2 = strtoupper($n2);
 
 $path = get_home_path();
+
 
 $background = "$n3";
 $font = plugin_dir_path( __FILE__ ).'arialbd.ttf';
