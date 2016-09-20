@@ -47,7 +47,7 @@ function rb_get_bib_info() {
 <?php 
        $path = "/wp-content/plugins/race-bib-generator/bibs/";
         
-        foreach( glob( plugin_dir_path( __FILE__ ) . "bibs/*.png" ) as $filename ){
+        foreach( glob( plugin_dir_path( __FILE__ ) . "bibs/*.{png,jpg}" ) as $filename ){
        
         
         $filename = basename($filename);
